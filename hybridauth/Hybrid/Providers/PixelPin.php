@@ -41,9 +41,36 @@ class Hybrid_Providers_PixelPin extends Hybrid_Provider_Model_OAuth2
 		}
 
 		$this->user->profile->identifier    	= $data->sub;
-		$this->user->profile->firstName     	= $data->given_name;
-		$this->user->profile->lastName      	= $data->family_name;
-		$this->user->profile->nickname			= $data->nickname;
+
+		$firstName = (isset($data->given_name) ? $data->given_name : false);
+		if($firstName === false)
+		{
+			$this->user->profile->firstName 		= 'Unavailable';
+		}
+		else
+		{
+			$this->user->profile->firstName     	= $data->given_name;
+		}
+
+		$lastName = (isset($data->family_name) ? $data->family_name : false);
+		if($lastName === false)
+		{
+			$this->user->profile->lastName      	= 'Unavailable';
+		}
+		else
+		{
+			$this->user->profile->lastName      	= $data->family_name;
+		}
+
+		$nickname = (isset($data->nickname) ? $data->nickname : false);
+		if($nickname === false)
+		{
+			$this->user->profile->nickname		    = 'Unavailable';
+		}
+		else
+		{
+			$this->user->profile->nickname			= $data->nickname;
+		}
 
 		$gender = (isset($data->gender) ? $data->gender : false);
 		if ($gender === false){
@@ -74,9 +101,33 @@ class Hybrid_Providers_PixelPin extends Hybrid_Provider_Model_OAuth2
 			$this->user->profile->phoneNumber	= $phone_number;
 		}
 
-		$this->user->profile->displayName   	= $data->given_name;
-		$this->user->profile->email         	= $data->email;
-	    $this->user->profile->emailVerified 	= $data->email;
+		$displayName = (isset($data->displayName) ? $data->displayName : false);
+		if($displayName	=== false){
+			$this->user->profile->displayName	    = 'Unavailable';
+		}
+		else
+		{
+			$this->user->profile->displayName   	= $data->given_name;
+		}
+		
+
+		$email = (isset($data->email) ? $data->email : false);
+		if($email === false){
+			$this->user->profile->email         = 'Unavailable';
+		}
+		else
+		{
+			$this->user->profile->email         	= $data->email;
+		}
+
+		$emailVerified	 = (isset($data->emailVerified) ? $data->emailVerified : false);
+		if($emailVerified === false){
+			$this->user->profile->emailVerified	= 'Unavailable';
+		}
+		else
+		{
+	    	$this->user->profile->emailVerified 	= $data->email;
+	    }
 
 	    $address = (isset($data->address) ? $data->address : false);
 	    if ($address === false){
