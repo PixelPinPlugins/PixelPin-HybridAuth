@@ -143,23 +143,61 @@ class Hybrid_Providers_PixelPin extends Hybrid_Provider_Model_OAuth2
 
 		    $decodeAddress = json_decode($address);
 
-			$streetAddress2 = $decodeAddress->{"street_address"};
-			$townCity2 = $decodeAddress->{"locality"};
-			$region2 = $decodeAddress->{"region"};
-			$postalCode2 = $decodeAddress->{"postal_code"};
-			$country2 = $decodeAddress->{"country"};
+		    if($decodeAddress->{"street_address"} !== '')
+		    {
+		    	$streetAddress2 = $decodeAddress->{"street_address"};
+		    	$streetAddress = (string)$streetAddress2;
+		    	$this->user->profile->address = $streetAddress;
+		    }
+		    else
+		    {
+		    	$this->user->profile->address = 'Unavailable';
+		    }
 
-			$streetAddress = (string)$streetAddress2;
-			$townCity = (string)$townCity2;
-			$region = (string)$region2;
-			$postalCode = (string)$postalCode2;
-			$country = (string)$country2;
+		    if($decodeAddress->{"locality"} !== '')
+		    {
+		    	$townCity2 = $decodeAddress->{"locality"};
+		    	$townCity = (string)$townCity2;
+		    	$this->user->profile->city = $townCity;
 
-		    $this->user->profile->address    	= $streetAddress;
-		    $this->user->profile->country       = $country;
-		    $this->user->profile->region        = $region;
-		    $this->user->profile->city          = $townCity;
-		    $this->user->profile->zip           = $postalCode;
+		    }
+		    else
+		    {
+		    	$this->user->profile->city = 'Unavaliable';
+		    }
+
+		    if($decodeAddress->{"region"} !== '')
+		    {
+		    	$region2 = $decodeAddress->{"region"};
+		    	$region = (string)$region2;
+		    	$this->user->profile->region = $region;
+		    }
+		    else
+		    {
+		    	$this->user->profile->region = 'Unavaliable';
+		    }
+
+		    if($decodeAddress->{"postal_code"} !== '')
+		    {
+		    	$postalCode2 = $decodeAddress->{"postal_code"};
+		    	$postalCode = (string)$postalCode2;
+		    	$this->user->profile->zip = $postalCode;
+		    }
+		    else
+		    {
+		    	$this->user->profile->zip = 'Unavaliable';
+		    }
+
+		    if($decodeAddress->{"country"} !== '')
+		    {
+				$country2 = $decodeAddress->{"country"};
+				$country = (string)$country2;
+				$this->user->profile->country = $country;
+		    }
+		    else
+		    {
+		    	$this->user->profile->country = 'Unavailable';
+		    }
 	    }
 
 		return $this->user->profile;
