@@ -101,13 +101,13 @@ class Hybrid_Providers_PixelPin extends Hybrid_Provider_Model_OAuth2
 			$this->user->profile->phoneNumber	= $phone_number;
 		}
 
-		$displayName = (isset($data->displayName) ? $data->displayName : false);
+		$displayName = (isset($data->nickname) ? $data->nickname : false);
 		if($displayName	=== false){
 			$this->user->profile->displayName	    = 'Unavailable';
 		}
 		else
 		{
-			$this->user->profile->displayName   	= $data->given_name;
+			$this->user->profile->displayName   	= $data->nickname;
 		}
 		
 
@@ -126,7 +126,7 @@ class Hybrid_Providers_PixelPin extends Hybrid_Provider_Model_OAuth2
 		}
 		else
 		{
-	    	$this->user->profile->emailVerified 	= $data->email;
+	    	$this->user->profile->emailVerified 	= $data->emailVerified;
 	    }
 
 	    $address = (isset($data->address) ? $data->address : false);
